@@ -1,60 +1,97 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { puzzles } from '../data/puzzles'
-
+import '../styles/game.css'
 export default function Game() {
   const [index, setIndex] = useState(0)
   const [selected, setSelected] = useState(null)
   const [result, setResult] = useState(null)
+  const [score, setScore] = useState(0)
+  const [isCompleted, setIsCompleted] = useState(false)
 
   const puzzle = puzzles[index]
+
+  useEffect(() => {
+    if (isCompleted) {
+      submitScoreToBackend(score)
+    }
+  }, [isCompleted])
 
   const checkAnswer = () => {
     if (selected === puzzle.answer) {
       setResult('correct')
+      setScore((prev) => prev + 1)
     } else {
       setResult('wrong')
     }
   }
 
   const nextPuzzle = () => {
-    setResult(null)
-    setSelected(null)
-    setIndex((prev) => (prev + 1) % puzzles.length)
+    const next = index + 1
+    if (next >= puzzles.length) {
+      setIsCompleted(true)
+    } else {
+      setResult(null)
+      setSelected(null)
+      setIndex(next)
+    }
+  }
+
+  const submitScoreToBackend = async (scoreValue) => {
+    const token = localStorage.getItem('token')
+    if (!token) return
+
+    try {
+      await fetch('http://localhost:5000/api/score/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        body: JSON.stringify({ value: scoreValue }),
+      })
+    } catch (error) {
+      console.error('Error submitting score:', error)
+    }
+  }
+
+  if (isCompleted) {
+    return (
+      <div className="game-container">
+        <h2>🎉 Game Completed!</h2>
+        <p>Your score: {score} / {puzzles.length}</p>
+        <button onClick={() => window.location.reload()}>Play Again</button>
+      </div>
+    )
   }
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h2 className="text-xl font-bold mb-4">🧩 {puzzle.question}</h2>
-      <div className="space-y-2">
+    <div className="game-container">
+      <h2 className="question">🧩 {puzzle.question}</h2>
+      <div className="options">
         {puzzle.options.map((opt) => (
           <button
             key={opt}
-            className={`block w-full p-2 border rounded ${selected === opt ? 'bg-blue-300' : 'bg-white'}`}
+            className={`option ${selected === opt ? 'selected' : ''}`}
             onClick={() => setSelected(opt)}
           >
             {opt}
           </button>
         ))}
       </div>
-      <button
-        onClick={checkAnswer}
-        className="mt-4 bg-green-500 text-white px-4 py-2 rounded"
-      >
+
+      <button className="submit-btn" onClick={checkAnswer}>
         Submit
       </button>
 
       {result && (
-        <div className="mt-4 text-lg font-semibold">
+        <div className="result">
           {result === 'correct' ? '✅ Correct!' : '❌ Wrong!'}
         </div>
       )}
 
       {result && (
-        <button
-          onClick={nextPuzzle}
-          className="mt-4 block bg-blue-500 text-white px-4 py-2 rounded"
-        >
+        <button className="next-btn" onClick={nextPuzzle}>
           Next Puzzle
         </button>
       )}
