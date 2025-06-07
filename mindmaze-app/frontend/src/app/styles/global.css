@@ -24,3 +24,8 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+.option{
+  color: black;
+  display: flex;
+  justify-content: center;
+}

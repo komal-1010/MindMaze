@@ -2,14 +2,33 @@
 import { useState, useEffect } from 'react'
 import { puzzles } from '../data/puzzles'
 import '../styles/game.css'
+
 export default function Game() {
   const [index, setIndex] = useState(0)
   const [selected, setSelected] = useState(null)
   const [result, setResult] = useState(null)
   const [score, setScore] = useState(0)
   const [isCompleted, setIsCompleted] = useState(false)
+  const [timeLeft, setTimeLeft] = useState(15)
 
   const puzzle = puzzles[index]
+
+  useEffect(() => {
+    if (isCompleted || result) return
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev === 1) {
+          clearInterval(timer)
+          setResult('timeout')
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [index, result, isCompleted])
 
   useEffect(() => {
     if (isCompleted) {
@@ -18,6 +37,7 @@ export default function Game() {
   }, [isCompleted])
 
   const checkAnswer = () => {
+    if (result) return // prevent re-submitting
     if (selected === puzzle.answer) {
       setResult('correct')
       setScore((prev) => prev + 1)
@@ -34,6 +54,7 @@ export default function Game() {
       setResult(null)
       setSelected(null)
       setIndex(next)
+      setTimeLeft(15)
     }
   }
 
@@ -67,26 +88,34 @@ export default function Game() {
 
   return (
     <div className="game-container">
+      <div className="timer">⏳ Time Left: {timeLeft}s</div>
+
       <h2 className="question">🧩 {puzzle.question}</h2>
+
       <div className="options">
         {puzzle.options.map((opt) => (
           <button
             key={opt}
             className={`option ${selected === opt ? 'selected' : ''}`}
-            onClick={() => setSelected(opt)}
+            onClick={() => !result && setSelected(opt)} // Disable if answered
+            disabled={!!result}
           >
             {opt}
           </button>
         ))}
       </div>
 
-      <button className="submit-btn" onClick={checkAnswer}>
-        Submit
-      </button>
+      {!result && (
+        <button className="submit-btn" onClick={checkAnswer}>
+          Submit
+        </button>
+      )}
 
       {result && (
         <div className="result">
-          {result === 'correct' ? '✅ Correct!' : '❌ Wrong!'}
+          {result === 'correct' && '✅ Correct!'}
+          {result === 'wrong' && '❌ Wrong!'}
+          {result === 'timeout' && '⏱️ Time\'s up!'}
         </div>
       )}
 

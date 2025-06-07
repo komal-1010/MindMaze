@@ -1,11 +1,41 @@
-/* styles/navbar.css */
 .navbar {
-  background-color: #222;
-  padding: 1rem;
   display: flex;
-  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eee;
+  padding: 10px 20px;
+  font-family: sans-serif;
 }
+
 .navbar a {
-  color: white;
+  margin-right: 15px;
   text-decoration: none;
+  color: #333;
+}
+
+.dark-toggle {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #444;
+  color: white;
+  cursor: pointer;
+}
+
+body.dark {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+
+body.dark .navbar {
+  background-color: #2b2b2b;
+}
+
+body.dark .navbar a {
+  color: #f0f0f0;
+}
+
+body.dark .dark-toggle {
+  background-color: #ddd;
+  color: #222;
 }
