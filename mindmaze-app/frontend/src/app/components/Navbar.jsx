@@ -7,13 +7,18 @@ export default function Navbar() {
   const [dark, setDark] = useState(false)
 
   useEffect(() => {
-    document.body.className = dark ? 'dark' : ''
+    if (dark) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
   }, [dark])
 
   return (
     <nav className="navbar">
       <div className="nav-links">
         <Link href="/">Home</Link>
+        <Link href="/start">Start</Link>
         <Link href="/game">Game</Link>
         <Link href="/login">Login</Link>
       </div>

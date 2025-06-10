@@ -1,58 +1,193 @@
 export const puzzles = [
+  // 🧮 MATH - EASY
   {
-    id: 1,
-    question: "What has keys but can't open locks?",
-    options: ["Piano", "Map", "Box", "Clock"],
-    answer: "Piano",
-    level: "easy"
+    question: '5 + 3 = ?',
+    options: ['7', '8', '9'],
+    answer: '8',
+    level: 'easy',
+    category: 'math',
   },
   {
-    id: 2,
-    question: "I have hands but no arms and a face but no eyes. What am I?",
-    options: ["Clock", "Mirror", "Robot", "Statue"],
-    answer: "Clock",
-    level: "medium",
+    question: '9 - 4 = ?',
+    options: ['6', '5', '4'],
+    answer: '5',
+    level: 'easy',
+    category: 'math',
+  },
+
+  // 🧮 MATH - MEDIUM
+  {
+    question: '12 × 3 = ?',
+    options: ['36', '32', '30'],
+    answer: '36',
+    level: 'medium',
+    category: 'math',
   },
   {
-    id: 3,
-    question: "The more you take, the more you leave behind. What are they?",
-    options: ["Memories", "Footsteps", "Time", "Shadows"],
-    answer: "Footsteps",
-    level: "medium"
+    question: '45 ÷ 5 = ?',
+    options: ['8', '9', '10'],
+    answer: '9',
+    level: 'medium',
+    category: 'math',
+  },
+
+  // 🧮 MATH - HARD
+  {
+    question: 'What is the square root of 144?',
+    options: ['11', '12', '13'],
+    answer: '12',
+    level: 'hard',
+    category: 'math',
   },
   {
-    id: 4,
-    question: "What comes once in a minute, twice in a moment, but never in a thousand years?",
-    options: ["The letter M", "A blink", "A second", "A sound"],
-    answer: "The letter M",
-    level: "hard"
+    question: 'Solve: (8 + 2) × 5 - 10',
+    options: ['40', '50', '30'],
+    answer: '40',
+    level: 'hard',
+    category: 'math',
+  },
+
+  // 🔍 LOGIC - EASY
+  {
+    question: 'Which comes next: 2, 4, 6, ?',
+    options: ['7', '8', '10'],
+    answer: '8',
+    level: 'easy',
+    category: 'logic',
   },
   {
-    id: 5,
-    question: "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?",
-    options: ["Echo", "Shadow", "Whistle", "Cloud"],
-    answer: "Echo",
-    level: "hard"
+    question: 'Which one is different: Cat, Dog, Apple, Lion?',
+    options: ['Dog', 'Cat', 'Apple'],
+    answer: 'Apple',
+    level: 'easy',
+    category: 'logic',
+  },
+
+  // 🔍 LOGIC - MEDIUM
+  {
+    question: 'Find the odd one: 11, 13, 17, 19, 21',
+    options: ['13', '17', '21'],
+    answer: '21',
+    level: 'medium',
+    category: 'logic',
   },
   {
-    id: 6,
-    question: "What can travel around the world while staying in the same corner?",
-    options: ["Stamp", "Satellite", "Wind", "Map"],
-    answer: "Stamp",
-    level: "medium"
+    question: 'What comes next: 1, 4, 9, 16, ?',
+    options: ['20', '25', '36'],
+    answer: '25',
+    level: 'medium',
+    category: 'logic',
+  },
+
+  // 🔍 LOGIC - HARD
+  {
+    question: 'Complete: AZ, BY, CX, ?',
+    options: ['DW', 'DU', 'DZ'],
+    answer: 'DW',
+    level: 'hard',
+    category: 'logic',
   },
   {
-    id: 7,
-    question: "What has a neck but no head?",
-    options: ["Bottle", "Shirt", "Chair", "Snake"],
-    answer: "Bottle",
-    level: "easy"
+    question: 'If ALL=144, then BAT=?',
+    options: ['222', '132', '234'],
+    answer: '132',
+    level: 'hard',
+    category: 'logic',
+  },
+
+  // ✍️ WORD - EASY
+  {
+    question: 'What is the synonym of “Happy”?',
+    options: ['Sad', 'Glad', 'Angry'],
+    answer: 'Glad',
+    level: 'easy',
+    category: 'word',
   },
   {
-    id: 8,
-    question: "You see me once in June, twice in November, but not at all in May. What am I?",
-    options: ["The letter E", "Full Moon", "Rain", "Holiday"],
-    answer: "The letter E",
-    level: "medium"
-  }
-];
+    question: 'Choose correct spelling:',
+    options: ['Receeve', 'Receive', 'Recieve'],
+    answer: 'Receive',
+    level: 'easy',
+    category: 'word',
+  },
+
+  // ✍️ WORD - MEDIUM
+  {
+    question: 'Opposite of “Ancient”?',
+    options: ['Modern', 'Old', 'Antique'],
+    answer: 'Modern',
+    level: 'medium',
+    category: 'word',
+  },
+  {
+    question: 'Choose correct synonym of “Brief”:',
+    options: ['Short', 'Slow', 'Long'],
+    answer: 'Short',
+    level: 'medium',
+    category: 'word',
+  },
+
+  // ✍️ WORD - HARD
+  {
+    question: 'What is the antonym of “Obscure”?',
+    options: ['Clear', 'Complicated', 'Blurred'],
+    answer: 'Clear',
+    level: 'hard',
+    category: 'word',
+  },
+  {
+    question: 'Which word means “a place where books are kept”?',
+    options: ['Library', 'Librarian', 'Bookstore'],
+    answer: 'Library',
+    level: 'hard',
+    category: 'word',
+  },
+
+  // 🌍 GENERAL - EASY
+  {
+    question: 'Which planet is known as the Red Planet?',
+    options: ['Earth', 'Mars', 'Venus'],
+    answer: 'Mars',
+    level: 'easy',
+    category: 'general',
+  },
+  {
+    question: 'What color is the sky on a clear day?',
+    options: ['Blue', 'Green', 'Yellow'],
+    answer: 'Blue',
+    level: 'easy',
+    category: 'general',
+  },
+
+  // 🌍 GENERAL - MEDIUM
+  {
+    question: 'How many continents are there?',
+    options: ['5', '6', '7'],
+    answer: '7',
+    level: 'medium',
+    category: 'general',
+  },
+  {
+    question: 'Which ocean is the largest?',
+    options: ['Atlantic', 'Indian', 'Pacific'],
+    answer: 'Pacific',
+    level: 'medium',
+    category: 'general',
+  },
+
+  // 🌍 GENERAL - HARD
+  {
+    question: 'Who wrote the Indian National Anthem?',
+    options: ['Gandhi', 'Tagore', 'Nehru'],
+    answer: 'Tagore',
+    level: 'hard',
+    category: 'general',
+  },
+  {
+    question: 'Which element has the atomic number 1?',
+    options: ['Oxygen', 'Helium', 'Hydrogen'],
+    answer: 'Hydrogen',
+    level: 'hard',
+    category: 'general',
+  },
+]

@@ -2,8 +2,16 @@
 import { useState, useEffect } from 'react'
 import { puzzles } from '../data/puzzles'
 import '../styles/game.css'
+import { useSearchParams } from 'next/navigation'
 
 export default function Game() {
+  const searchParams = useSearchParams()
+const level = searchParams.get('level')
+const category = searchParams.get('category')
+
+const filteredPuzzles = puzzles.filter(
+  (p) => p.level === level && p.category === category
+)
   const [index, setIndex] = useState(0)
   const [selected, setSelected] = useState(null)
   const [result, setResult] = useState(null)
@@ -12,6 +20,28 @@ export default function Game() {
   const [timeLeft, setTimeLeft] = useState(15)
 
   const puzzle = puzzles[index]
+  const [highScore, setHighScore] = useState(null)
+
+  const getHighScore = async () => {
+    const token = localStorage.getItem('token')
+    const res = await fetch('http://localhost:5000/api/score/highscore', {
+      headers: { Authorization: token },
+    })
+    const data = await res.json()
+    setHighScore(data.highScore)
+  }
+  if (filteredPuzzles.length === 0) {
+  return (
+    <div className="game-container">
+      <h2>No puzzles found for this category & level.</h2>
+      <button onClick={() => window.location.href = '/start'}>Try Again</button>
+    </div>
+  )
+}
+
+  useEffect(() => {
+    getHighScore()
+  }, [])
 
   useEffect(() => {
     if (isCompleted || result) return
@@ -81,6 +111,9 @@ export default function Game() {
       <div className="game-container">
         <h2>🎉 Game Completed!</h2>
         <p>Your score: {score} / {puzzles.length}</p>
+        {highScore !== null && (
+          <p>🏆 Your high score: {highScore}</p>
+        )}
         <button onClick={() => window.location.reload()}>Play Again</button>
       </div>
     )
@@ -88,6 +121,13 @@ export default function Game() {
 
   return (
     <div className="game-container">
+      <div className="progress-bar">
+        <div
+          className="progress-fill"
+          style={{ width: `${(timeLeft / 15) * 100}%` }}
+        ></div>
+      </div>
+
       <div className="timer">⏳ Time Left: {timeLeft}s</div>
 
       <h2 className="question">🧩 {puzzle.question}</h2>

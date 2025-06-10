@@ -59,3 +59,21 @@
   font-weight: bold;
   color: #d9534f;
 }
+.progress-bar {
+  height: 10px;
+  background-color: #ddd;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #28a745;
+  transition: width 1s linear;
+}
+select {
+  padding: 8px;
+  margin: 10px;
+  border-radius: 5px;
+}
