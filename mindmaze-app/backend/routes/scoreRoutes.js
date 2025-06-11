@@ -1,10 +1,28 @@
 // routes/scoreRoutes.js
-const express = require('express')
+import express from 'express'
+import Score from '../models/Score.js'
+
 const router = express.Router()
-const { submitScore, getScores } = require('../controllers/scoreController')
-const auth = require('../middleware/auth')
 
-router.post('/submit', auth, submitScore)
-router.get('/leaderboard', getScores)
+router.post('/submit', async (req, res) => {
+  try {
+    const { userId, value, level, category } = req.body
+    const newScore = new Score({ userId, value, level, category })
+    await newScore.save()
+    res.status(201).json({ message: 'Score saved successfully' })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to save score' })
+  }
+})
 
-module.exports = router
+// Get scores by user
+router.get('/user/:userId', async (req, res) => {
+  try {
+    const scores = await Score.find({ userId: req.params.userId }).sort({ createdAt: -1 })
+    res.json(scores)
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch scores' })
+  }
+})
+
+export default router
