@@ -1,38 +1,40 @@
-// controllers/authController.js
-const User = require('../models/User')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+import bcrypt from 'bcryptjs'
+import User from '../models/User.js'
 
-const SECRET = process.env.JWT_SECRET || 'mindmaze_secret'
+// Register controller
+export const register = async (req, res) => {
+  const { username, email, password } = req.body
 
-exports.register = async (req, res) => {
-  const { username, password } = req.body
   try {
-    const existingUser = await User.findOne({ username })
-    if (existingUser) return res.status(400).json({ msg: 'User already exists' })
+    const existingUser = await User.findOne({ email })
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email already registered' })
+    }
 
-    const hashed = await bcrypt.hash(password, 10)
-    const user = new User({ username, password: hashed })
-    await user.save()
+    const hashedPassword = await bcrypt.hash(password, 10)
+    const newUser = new User({ username, email, password: hashedPassword })
+    await newUser.save()
 
-    res.json({ msg: 'User registered successfully' })
-  } catch (err) {
-    res.status(500).json({ error: err.message })
+    res.status(201).json({ message: 'User registered successfully' })
+  } catch (error) {
+    console.error('Registration error:', error)
+    res.status(500).json({ error: 'Server error' })
   }
 }
 
-exports.login = async (req, res) => {
-  const { username, password } = req.body
+// Login controller (optional — basic stub)
+export const login = async (req, res) => {
+  const { email, password } = req.body
+
   try {
-    const user = await User.findOne({ username })
-    if (!user) return res.status(400).json({ msg: 'User not found' })
+    const user = await User.findOne({ email })
+    if (!user) return res.status(400).json({ message: 'Invalid credentials' })
 
     const isMatch = await bcrypt.compare(password, user.password)
-    if (!isMatch) return res.status(400).json({ msg: 'Invalid password' })
+    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' })
 
-    const token = jwt.sign({ id: user._id }, SECRET, { expiresIn: '2h' })
-    res.json({ token, userId: user._id, username: user.username })
-  } catch (err) {
-    res.status(500).json({ error: err.message })
+    res.status(200).json({ message: 'Login successful', userId: user._id })
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
   }
 }
