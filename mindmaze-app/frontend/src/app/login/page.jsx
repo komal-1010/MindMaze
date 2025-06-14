@@ -5,6 +5,7 @@ import "../styles/login.css"
 export default function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
   const router = useRouter()
 
   const handleLogin = async (e) => {
@@ -22,6 +23,7 @@ export default function Login() {
       localStorage.setItem('username', data.username)
       router.push('/home')
     } else {
+      setError('Something went wrong')
       alert(data.msg || 'Login failed')
     }
   }
@@ -34,6 +36,14 @@ export default function Login() {
         <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
         <button type="submit">Login</button>
       </form>
+         {error && <p className="error">{error}</p>}
+ 
+      <p style={{ marginTop: '1rem' }}>
+        Don't have an account?{' '}
+        <a href="/register" style={{ color: 'blue' }}>
+          Register
+        </a>
+      </p>
     </div>
   )
 }
