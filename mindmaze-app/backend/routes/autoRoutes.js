@@ -1,26 +1,11 @@
-import Router from express
-const router = express.Router()
-const { register, login } = require('../controllers/authController')
+import express from 'express';
+const router = express.Router();
+import { register, login } from '../controllers/authController.js';
 
-router.post('/register', async (req, res) => {
-  const { username, email, password } = req.body
+// Register route
+router.post('/register', register);
 
-  try {
-    const existingUser = await User.findOne({ email })
-    if (existingUser) {
-      return res.status(400).json({ message: 'Email already registered' })
-    }
+// Login route
+router.post('/login', login);
 
-    const hashedPassword = await bcrypt.hash(password, 10)
-    const newUser = new User({ username, email, password: hashedPassword })
-    await newUser.save()
-
-    res.status(201).json({ message: 'User registered successfully' })
-  } catch (error) {
-    console.error('Registration error:', error)
-    res.status(500).json({ error: 'Server error' })
-  }
-})
-router.post('/login', login)
-
-export default router
+export default router;

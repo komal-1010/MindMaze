@@ -1,6 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import '../styles/home.css'
 
 export default function Home() {
   const router = useRouter()
@@ -19,10 +20,14 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <h1>🎮 Welcome to MindMaze</h1>
-      <button onClick={() => router.push('/game')}>Start Game</button>
-      <button onClick={() => router.push('/leaderboard')}>Leaderboard</button>
-      <button onClick={handleLogout}>Logout</button>
+      <h1>🧠 MindMaze</h1>
+      <p className="tagline">Challenge your brain with fun puzzles and riddles!</p>
+
+      <div className="btn-group">
+        <button onClick={() => router.push('/game')}>🕹️ Start Game</button>
+        <button onClick={() => router.push('/leaderboard')}>🏆 Leaderboard</button>
+        <button onClick={handleLogout}>🚪 Logout</button>
+      </div>
     </div>
   )
 }

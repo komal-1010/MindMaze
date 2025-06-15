@@ -1,0 +1,37 @@
+.home-container {
+  text-align: center;
+  margin-top: 80px;
+  padding: 2rem;
+  font-family: sans-serif;
+  background: linear-gradient(to bottom, #f0f4ff, #ffffff);
+  min-height: 80vh;
+}
+
+.home-container h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.btn-group button {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #5c6bc0;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-group button:hover {
+  background-color: #3949ab;
+}
