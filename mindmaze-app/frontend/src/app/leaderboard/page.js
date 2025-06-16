@@ -6,7 +6,7 @@ export default function Leaderboard() {
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
-      const res = await fetch('http://localhost:5000/api/score/leaderboard')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/score/leaderboard`)
       const data = await res.json()
       setScores(data)
     }

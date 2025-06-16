@@ -6,7 +6,7 @@ export default function Profile() {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    fetch('http://localhost:5000/api/user/me', {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/me', {
       headers: { Authorization: token }
     })
       .then(res => res.json())

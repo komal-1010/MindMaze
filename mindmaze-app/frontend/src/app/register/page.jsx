@@ -19,12 +19,13 @@ export default function RegisterPage() {
     setSuccess('')
 
     try {
-      const res = await fetch('https://curly-succotash-5574r5q5vpqc75x7-5000.app.github.dev/api/auth/register', {
+      console.log('URL:', `${process.env.NEXT_PUBLIC_BASE_URL}`);
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
-
       const data = await res.json()
 
       if (!res.ok) {

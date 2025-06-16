@@ -24,7 +24,7 @@ const filteredPuzzles = puzzles.filter(
 
   const getHighScore = async () => {
     const token = localStorage.getItem('token')
-    const res = await fetch('http://localhost:5000/api/score/highscore', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/score/highscore`, {
       headers: { Authorization: token },
     })
     const data = await res.json()
@@ -93,7 +93,7 @@ const filteredPuzzles = puzzles.filter(
     if (!token) return
 
     try {
-      await fetch('http://localhost:5000/api/score/submit', {
+      await fetch(`${process.env.BASE_URL}/api/score/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

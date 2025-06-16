@@ -1,6 +1,6 @@
 // middleware/auth.js
 const jwt = require('jsonwebtoken')
-const SECRET = process.env.JWT_SECRET || 'mindmaze_secret'
+const SECRET = process.env.JWT_SECRET 
 
 module.exports = (req, res, next) => {
   const token = req.header('Authorization')
