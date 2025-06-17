@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/autoRoutes.js";
 import scoreRoutes from "./routes/scoreRoutes.js";
-
+import aiRoutes from './routes/aiRoutes.js'
 dotenv.config();
 const app = express();
 const allowedOrigins = [
@@ -28,7 +28,7 @@ connectDB();
 
 app.use('/api/auth', authRoutes);
 app.use('/api/score', scoreRoutes);
-
+app.use('/api/ai', aiRoutes)
 app.listen(5000, () => {
   console.log('Server started on port 5000');
 });
