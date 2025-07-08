@@ -3,11 +3,11 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+dotenv.config();
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/autoRoutes.js";
 import scoreRoutes from "./routes/scoreRoutes.js";
 import aiRoutes from './routes/aiRoutes.js'
-dotenv.config();
 const app = express();
 const allowedOrigins = [
   'https://curly-succotash-5574r5q5vpqc75x7-3000.app.github.dev'
