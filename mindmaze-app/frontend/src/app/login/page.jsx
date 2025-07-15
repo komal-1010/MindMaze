@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import "../styles/login.css"
 export default function Login() {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
@@ -13,7 +13,7 @@ export default function Login() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ email, password })
     })
 
     const data = await res.json()
@@ -32,12 +32,24 @@ export default function Login() {
     <div className="login-container">
       <h2>Login to MindMaze</h2>
       <form onSubmit={handleLogin}>
-        <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+        <input
+          type="email"  
+          placeholder="Email"
+          value={username}
+          onChange={e => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
         <button type="submit">Login</button>
       </form>
-         {error && <p className="error">{error}</p>}
- 
+      {error && <p className="error">{error}</p>}
+
       <p style={{ marginTop: '1rem' }}>
         Don't have an account?{' '}
         <a href="/register" style={{ color: 'blue' }}>
