@@ -21,6 +21,7 @@ export default function Login() {
     if (res.ok) {
       localStorage.setItem('token', data.token)
       localStorage.setItem('username', data.username)
+      localStorage.setItem('userId', data.userId)
       router.push('/profile')
     } else {
       setError('Something went wrong')
