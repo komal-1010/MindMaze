@@ -18,7 +18,6 @@ export default function Navbar() {
     const token = localStorage.getItem('token')
     setIsLoggedIn(!!token)
   }, [])
-  console.log("isLoggedIn",isLoggedIn)
   return (
     <nav className="navbar">
       <div className="nav-links">

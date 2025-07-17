@@ -3,12 +3,17 @@ import { useEffect, useState } from 'react'
 
 export default function Profile() {
   const [results, setResults] = useState([])
-
-  const username = localStorage.getItem('username')
+  const [username, setUsername] = useState('')
 
   useEffect(() => {
+    // localStorage is only accessible in the browser
     const token = localStorage.getItem('token')
     const userId = localStorage.getItem('userId')
+    const storedUsername = localStorage.getItem('username')
+
+    setUsername(storedUsername || '')
+
+    if (!token || !userId) return
 
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}`, {
       headers: { Authorization: token }
