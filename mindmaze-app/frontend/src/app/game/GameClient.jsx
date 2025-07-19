@@ -26,21 +26,31 @@ export default function GameClient() {
 
   const getHighScore = async () => {
     const token = localStorage.getItem('token')
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/score/highscore`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/highscore/`, {
       headers: { Authorization: token },
     })
     const data = await res.json()
     setHighScore(data.highScore)
   }
 
+  if (!category || !level) {
+    return (
+      <div className="game-container">
+        <h2>Please select a category and level to start the game.</h2>
+        <button onClick={() => window.location.href = '/start'}>Go to Start</button>
+      </div>
+    )
+  }
+
   if (filteredPuzzles.length === 0) {
     return (
       <div className="game-container">
-        <h2>No puzzles found for this category & level.</h2>
+        <h2>No puzzles found for the selected category and level.</h2>
         <button onClick={() => window.location.href = '/start'}>Try Again</button>
       </div>
     )
   }
+
 
   useEffect(() => {
     getHighScore()
@@ -96,7 +106,7 @@ export default function GameClient() {
     if (!token) return
 
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/score/submit`, {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/highscore/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

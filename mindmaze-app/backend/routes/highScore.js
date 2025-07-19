@@ -1,6 +1,6 @@
 const User = require("../models/User");
 
-router.get('/highscore', authMiddleware, async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
   const userId = req.user.id;
   const user = await User.findById(userId);
 
