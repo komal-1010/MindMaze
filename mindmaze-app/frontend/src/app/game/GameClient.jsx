@@ -75,7 +75,7 @@ export default function GameClient() {
 
   useEffect(() => {
     if (isCompleted) {
-      submitScoreToBackend(score)
+      submitScoreToBackend(score,level,category)
     }
   }, [isCompleted])
 
@@ -101,7 +101,7 @@ export default function GameClient() {
     }
   }
 
-  const submitScoreToBackend = async (scoreValue) => {
+  const submitScoreToBackend = async (scoreValue,level,category) => {
     const token = localStorage.getItem('token')
     if (!token) return
 
@@ -112,7 +112,11 @@ export default function GameClient() {
           'Content-Type': 'application/json',
           Authorization: token,
         },
-        body: JSON.stringify({ value: scoreValue }),
+        body: JSON.stringify({
+          value: scoreValue,
+          level: level,
+          category: category
+        }),
       })
     } catch (error) {
       console.error('Error submitting score:', error)

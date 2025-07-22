@@ -20,12 +20,14 @@ export default function Profile() {
     })
       .then(res => res.json())
       .then(data => {
-        console.log("data",data)
-        setResults(data.results || [])
+        console.log("data", data)
+        setResults(Array.isArray(data) ? data : [])
       })
+
   }, [])
 
   // 🧮 Compute high score and games played from results
+  console.log("results", results)
   const highScore = results.length > 0 ? Math.max(...results.map(r => r.value)) : 0
   const gamesPlayed = results.length
 

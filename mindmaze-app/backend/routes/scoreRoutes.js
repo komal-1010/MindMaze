@@ -18,7 +18,9 @@ router.post('/submit', async (req, res) => {
 // Get scores by user
 router.get('/user/:userId', async (req, res) => {
   try {
-    const scores = await Score.find({ userId: req.params.userId }).sort({ createdAt: -1 })
+    const scores = await Score.find({ user: req.params.userId })
+  .populate('user', 'username') 
+  .sort({ createdAt: -1 })
     res.json(scores)
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch scores' })
