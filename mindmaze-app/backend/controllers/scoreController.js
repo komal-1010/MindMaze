@@ -2,10 +2,10 @@
 const Score = require('../models/Score')
 
 exports.submitScore = async (req, res) => {
-  const { value } = req.body
+  const { value, level, category } = req.body
   const userId = req.user.id
   try {
-    const score = new Score({ user: userId, value })
+    const score = new Score({ user: userId, value, level, category})
     await score.save()
     res.json({ msg: 'Score submitted' })
   } catch (err) {

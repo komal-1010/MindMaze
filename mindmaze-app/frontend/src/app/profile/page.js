@@ -15,11 +15,12 @@ export default function Profile() {
 
     if (!token || !userId) return
 
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}`, {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/score/user/${userId}`, {
       headers: { Authorization: token }
     })
       .then(res => res.json())
       .then(data => {
+        console.log("data",data)
         setResults(data.results || [])
       })
   }, [])

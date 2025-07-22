@@ -15,7 +15,7 @@ router.get('/', authMiddleware, async (req, res) => {
 
 router.post('/submit', authMiddleware, async (req, res) => {
   try {
-    const { value } = req.body;
+    const { value, level, category } = req.body;
     const user = await User.findById(req.user.id);
 
     if (!user) {
@@ -25,7 +25,14 @@ router.post('/submit', authMiddleware, async (req, res) => {
     if (typeof value !== 'number' || value < 0) {
       return res.status(400).json({ error: 'Invalid score' });
     }
+    const score = new Score({
+      user: user._id,
+      value,
+      level,
+      category,
+    });
 
+    await score.save();
     if (value > (user.highScore || 0)) {
       user.highScore = value;
       await user.save();
