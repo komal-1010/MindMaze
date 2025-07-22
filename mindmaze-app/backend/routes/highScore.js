@@ -2,6 +2,7 @@ import express from 'express';
 import User from '../models/User.js';
 import authMiddleware from '../middleware/auth.js';
 import router from './autoRoutes.js';
+import Score from '../models/Score.js';
 
 router.get('/', authMiddleware, async (req, res) => {
   try {
