@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-
+import "../styles/profile.css"
 export default function Profile() {
   const [results, setResults] = useState([])
   const [username, setUsername] = useState('')
@@ -38,7 +38,8 @@ export default function Profile() {
       <p><strong>Highest Score:</strong> {highScore}</p>
       <p><strong>Games Played:</strong> {gamesPlayed}</p>
 
-      <h3>📊 Game History</h3>
+       <h3>📊 Game History</h3>
+      <div>
       {results.length > 0 ? (
         <ul>
           {results.map((res, index) => (
@@ -54,6 +55,7 @@ export default function Profile() {
       ) : (
         <p>No game results found.</p>
       )}
+      </div>
     </div>
   )
 }
