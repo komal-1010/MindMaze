@@ -33,7 +33,7 @@ router.get('/leaderboard', async (req, res) => {
     const leaderboard = await Score.aggregate([
       {
         $group: {
-          _id: '$userId',
+          _id: '$userx',
           totalScore: { $sum: '$value' },
           gamesPlayed: { $sum: 1 }
         }
