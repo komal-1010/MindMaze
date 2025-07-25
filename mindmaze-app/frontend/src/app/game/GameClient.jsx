@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { puzzles } from '../data/puzzles'
+import { puzzles as staticPuzzles } from '../data/puzzles'
 import '../styles/game.css'
 
 export default function GameClient() {
@@ -10,19 +10,15 @@ export default function GameClient() {
   const level = searchParams.get('level')
   const category = searchParams.get('category')
 
-  const filteredPuzzles = puzzles.filter(
-    (p) => p.level === level && p.category === category
-  )
-
+  const [puzzles, setPuzzles] = useState([])
   const [index, setIndex] = useState(0)
   const [selected, setSelected] = useState(null)
   const [result, setResult] = useState(null)
   const [score, setScore] = useState(0)
   const [isCompleted, setIsCompleted] = useState(false)
   const [timeLeft, setTimeLeft] = useState(15)
-
-  const puzzle = filteredPuzzles[index]
   const [highScore, setHighScore] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   const getHighScore = async () => {
     const token = localStorage.getItem('token')
@@ -33,26 +29,32 @@ export default function GameClient() {
     setHighScore(data.highScore)
   }
 
-  if (!category || !level) {
-    return (
-      <div className="game-container">
-        <h2>Please select a category and level to start the game.</h2>
-        <button onClick={() => window.location.href = '/start'}>Go to Start</button>
-      </div>
-    )
-  }
+  const loadPuzzles = async () => {
+    if (!level || !category) return
 
-  if (filteredPuzzles.length === 0) {
-    return (
-      <div className="game-container">
-        <h2>No puzzles found for the selected category and level.</h2>
-        <button onClick={() => window.location.href = '/start'}>Try Again</button>
-      </div>
-    )
-  }
+    try {
+      const res = await fetch('/api/generatePuzzle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ level, category }),
+      })
 
+      if (!res.ok) throw new Error('AI puzzle fetch failed')
+      const data = await res.json()
+      setPuzzles([data]) // AI returns 1 puzzle
+    } catch (err) {
+      console.warn('AI failed, falling back to static puzzles.')
+      const fallback = staticPuzzles.filter(
+        (p) => p.level === level && p.category === category
+      )
+      setPuzzles(fallback)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
+    loadPuzzles()
     getHighScore()
   }, [])
 
@@ -75,12 +77,13 @@ export default function GameClient() {
 
   useEffect(() => {
     if (isCompleted) {
-      submitScoreToBackend(score,level,category)
+      submitScoreToBackend(score, level, category)
     }
   }, [isCompleted])
 
   const checkAnswer = () => {
-    if (result) return // prevent re-submitting
+    if (result) return
+    const puzzle = puzzles[index]
     if (selected === puzzle.answer) {
       setResult('correct')
       setScore((prev) => prev + 1)
@@ -91,7 +94,7 @@ export default function GameClient() {
 
   const nextPuzzle = () => {
     const next = index + 1
-    if (next >= filteredPuzzles.length) {
+    if (next >= puzzles.length) {
       setIsCompleted(true)
     } else {
       setResult(null)
@@ -101,7 +104,7 @@ export default function GameClient() {
     }
   }
 
-  const submitScoreToBackend = async (scoreValue,level,category) => {
+  const submitScoreToBackend = async (scoreValue, level, category) => {
     const token = localStorage.getItem('token')
     if (!token) return
 
@@ -112,25 +115,47 @@ export default function GameClient() {
           'Content-Type': 'application/json',
           Authorization: token,
         },
-        body: JSON.stringify({
-          value: scoreValue,
-          level: level,
-          category: category
-        }),
+        body: JSON.stringify({ value: scoreValue, level, category }),
       })
     } catch (error) {
       console.error('Error submitting score:', error)
     }
   }
 
+  if (!category || !level) {
+    return (
+      <div className="game-container">
+        <h2>Please select a category and level to start the game.</h2>
+        <button onClick={() => window.location.href = '/start'}>Go to Start</button>
+      </div>
+    )
+  }
+
+  if (loading) {
+    return (
+      <div className="game-container">
+        <h2>Loading puzzle...</h2>
+      </div>
+    )
+  }
+
+  if (puzzles.length === 0) {
+    return (
+      <div className="game-container">
+        <h2>No puzzles available for this category and level.</h2>
+        <button onClick={() => window.location.href = '/start'}>Try Again</button>
+      </div>
+    )
+  }
+
+  const puzzle = puzzles[index]
+
   if (isCompleted) {
     return (
       <div className="game-container">
         <h2>🎉 Game Completed!</h2>
-        <p>Your score: {score} / {filteredPuzzles.length}</p>
-        {highScore !== null && (
-          <p>🏆 Your high score: {highScore}</p>
-        )}
+        <p>Your score: {score} / {puzzles.length}</p>
+        {highScore !== null && <p>🏆 Your high score: {highScore}</p>}
         <button onClick={() => window.location.reload()}>Play Again</button>
       </div>
     )
@@ -154,7 +179,7 @@ export default function GameClient() {
           <button
             key={opt}
             className={`option ${selected === opt ? 'selected' : ''}`}
-            onClick={() => !result && setSelected(opt)} // Disable if answered
+            onClick={() => !result && setSelected(opt)}
             disabled={!!result}
           >
             {opt}
