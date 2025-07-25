@@ -3,14 +3,20 @@ dotenv.config();
 
 import OpenAI from 'openai';
 
+const referer =
+  typeof window !== 'undefined' && window.location.hostname.includes('github.dev')
+    ? 'https://curly-succotash-5574r5q5vpqc75x7-3000.app.github.dev/'
+    : 'https://mind-maze-i58j47eor-komal-1010s-projects.vercel.app/';
+
 const openai = new OpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
   apiKey: process.env.OPENROUTER_API_KEY,
   defaultHeaders: {
-    'HTTP-Referer': 'https://mind-maze-i58j47eor-komal-1010s-projects.vercel.app/',
+    'HTTP-Referer': referer,
     'X-Title': 'MindMaze App',
   },
 });
+
 
 export const generatePuzzle = async (req, res) => {
   const { level = 'medium', category = 'logic' } = req.body;
