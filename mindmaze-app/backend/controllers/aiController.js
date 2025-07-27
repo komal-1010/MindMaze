@@ -21,21 +21,18 @@ export const generatePuzzle = async (req, res) => {
   const { level = 'medium', category = 'logic' } = req.body;
 
   const systemPrompt = 'You are a puzzle master.';
- const userPrompt = `Generate 3 ${level}-level ${category} puzzles.
-Return as an array of JSON objects like this:
+  const userPrompt = `Generate a ${level}-level ${category} puzzle in the following strict JSON format only:
 
-[
-  {
-    "question": "...",
-    "options": ["A", "B", "C"],
-    "answer": "B",
-    "level": "${level}",
-    "category": "${category}"
-  },
-  ...
-]
+{
+  "question": "...",
+  "options": ["A", "B", "C"],
+  "answer": "B",
+  "level": "${level}",
+  "category": "${category}"
+}
 
-Respond with **only JSON**, nothing else.`
+DO NOT include any explanation, markdown, or text. Respond with **JSON only** — nothing else.`;
+
 
 
   const referer =
