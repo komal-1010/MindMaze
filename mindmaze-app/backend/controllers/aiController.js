@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
-dotenv.config();
-
 import OpenAI from 'openai';
+dotenv.config();
 
 const referer =
   typeof window !== 'undefined' && window.location.hostname.includes('github.dev')
@@ -34,7 +33,7 @@ export const generatePuzzle = async (req, res) => {
 
 Respond with JSON only.`;
 
-  try {
+   try {
     const response = await openai.chat.completions.create({
       model: 'openai/gpt-4o',
       messages: [
@@ -54,17 +53,7 @@ Respond with JSON only.`;
     res.json(parsed);
   } catch (error) {
     console.error('AI puzzle generation failed:', error.message);
-
-    // 🔁 Inline fallback logic
-    const fallback = puzzles.filter(
-      (p) => p.level === level && p.category === category
-    );
-    if (fallback.length > 0) {
-      const randomPuzzle = fallback[Math.floor(Math.random() * fallback.length)];
-      res.json(randomPuzzle);
-    } else {
-      res.status(500).json({ error: 'No fallback puzzle available' });
-    }
+    res.status(500).json({ error: 'Puzzle generation failed. Please try again later.' });
   }
 };
 
