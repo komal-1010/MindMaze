@@ -33,21 +33,36 @@ export const generatePuzzle = async (req, res) => {
 
 Respond with JSON only.`;
 
-   try {
-    const response = await openai.chat.completions.create({
-      model: 'openai/gpt-4o',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt },
-      ],
+  const referer =
+    typeof window !== 'undefined' && window.location.hostname.includes('github.dev')
+      ? 'https://curly-succotash-5574r5q5vpqc75x7-3000.app.github.dev/'
+      : 'https://mind-maze-i58j47eor-komal-1010s-projects.vercel.app/';
+
+  try {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': referer,
+        'X-Title': 'MindMaze App',
+      },
+      body: JSON.stringify({
+        model: 'mistralai/mistral-7b-instruct', // or another model
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+      })
     });
 
-    const aiContent = response.choices[0].message.content;
+    const data = await response.json();
 
+    const aiContent = data.choices?.[0]?.message?.content || '';
     const match = aiContent.match(/```json\s*([\s\S]*?)\s*```/) || aiContent.match(/{[\s\S]*}/);
     const jsonText = match ? match[1] || match[0] : null;
 
-    if (!jsonText) throw new Error('No JSON found');
+    if (!jsonText) throw new Error('No JSON found in response');
 
     const parsed = JSON.parse(jsonText);
     res.json(parsed);
