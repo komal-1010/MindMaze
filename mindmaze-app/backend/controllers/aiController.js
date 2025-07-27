@@ -21,17 +21,22 @@ export const generatePuzzle = async (req, res) => {
   const { level = 'medium', category = 'logic' } = req.body;
 
   const systemPrompt = 'You are a puzzle master.';
-  const userPrompt = `Generate a ${level}-level ${category} puzzle with 3 options and specify the correct answer in this JSON format only:
+ const userPrompt = `Generate 3 ${level}-level ${category} puzzles.
+Return as an array of JSON objects like this:
 
-{
-  "question": "...",
-  "options": ["A", "B", "C"],
-  "answer": "B",
-  "level": "${level}",
-  "category": "${category}"
-}
+[
+  {
+    "question": "...",
+    "options": ["A", "B", "C"],
+    "answer": "B",
+    "level": "${level}",
+    "category": "${category}"
+  },
+  ...
+]
 
-Respond with JSON only.`;
+Respond with **only JSON**, nothing else.`
+
 
   const referer =
     typeof window !== 'undefined' && window.location.hostname.includes('github.dev')
