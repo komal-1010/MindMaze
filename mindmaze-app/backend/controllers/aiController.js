@@ -9,7 +9,7 @@ const referer =
 
 const openai = new OpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
-  apiKey: process.env.OPENROUTER_API_KEY,
+  apiKey: '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',
   defaultHeaders: {
     'HTTP-Referer': referer,
     'X-Title': 'MindMaze App',
