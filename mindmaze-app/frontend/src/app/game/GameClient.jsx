@@ -33,7 +33,7 @@ export default function GameClient() {
     if (!level || !category) return
 
     try {
-      const res = await fetch('/api/generatePuzzle', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/ai/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ level, category }),

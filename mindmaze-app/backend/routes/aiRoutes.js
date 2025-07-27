@@ -3,6 +3,6 @@ import { generatePuzzle } from '../controllers/aiController.js';
 
 const router = express.Router();
 
-router.get('/generate', generatePuzzle);
+router.post('/generate-puzzle', generatePuzzle);
 
 export default router;
