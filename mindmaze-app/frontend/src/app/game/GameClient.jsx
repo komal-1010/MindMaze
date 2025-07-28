@@ -30,28 +30,37 @@ export default function GameClient() {
   }
 
   const loadPuzzles = async () => {
-    if (!level || !category) return
+    if (!level || !category) return;
+
+    setLoading(true);
+    const collectedPuzzles = [];
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/ai/generate-puzzle`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ level, category }),
-      })
+      for (let i = 0; i < 3; i++) {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/ai/generate-puzzle`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ level, category }),
+        });
 
-      if (!res.ok) throw new Error('AI puzzle fetch failed')
-      const data = await res.json()
-      setPuzzles([data]) // AI returns 1 puzzle
+        if (!res.ok) throw new Error(`AI puzzle fetch failed at attempt ${i + 1}`);
+        const data = await res.json();
+        collectedPuzzles.push(data);
+      }
+
+      setPuzzles(collectedPuzzles);
     } catch (err) {
-      console.warn('AI failed, falling back to static puzzles.')
-      const fallback = staticPuzzles.filter(
-        (p) => p.level === level && p.category === category
-      )
-      setPuzzles(fallback)
+      console.warn('AI failed, falling back to static puzzles.');
+      const fallback = staticPuzzles
+        .filter((p) => p.level === level && p.category === category)
+        .slice(0, 3); // fallback to 3 puzzles max
+
+      setPuzzles(fallback);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
+
 
   useEffect(() => {
     loadPuzzles()

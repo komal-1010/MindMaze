@@ -11,7 +11,7 @@ import highScore from "./routes/highScore.js";
 import aiRoutes from './routes/aiRoutes.js'
 const app = express();
 const allowedOrigins = [
-  'https://mind-maze-phi.vercel.app',
+  'https://mind-maze-pmlqhhf3d-komal-1010s-projects.vercel.app',
   'https://curly-succotash-5574r5q5vpqc75x7-3000.app.github.dev'
   ]
   app.use(cors({
