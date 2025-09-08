@@ -1,7 +1,7 @@
 # 🧠 MindMaze – AI-Powered Quiz & Learning Platform
 
 MindMaze is a full-stack quiz platform that helps users test and improve their skills through topic-based quizzes and **AI-generated feedback**. Built with **Next.js**, **Redux**, **Node.js**, and **MongoDB**, this project demonstrates advanced frontend engineering, dynamic routing, and real-world full-stack architecture.
-
+Application Link:https://mind-maze-tawny.vercel.app/
 ---
 
 ## 🔥 Features
