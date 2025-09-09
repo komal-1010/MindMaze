@@ -12,7 +12,8 @@ import aiRoutes from './routes/aiRoutes.js'
 const app = express();
 const allowedOrigins = [
   'https://mind-maze-pmlqhhf3d-komal-1010s-projects.vercel.app',
-  'https://curly-succotash-5574r5q5vpqc75x7-3000.app.github.dev'
+  'https://curly-succotash-5574r5q5vpqc75x7-3000.app.github.dev',
+  'https://mind-maze-tawny.vercel.app'
   ]
   app.use(cors({
     origin: function (origin, callback) {
