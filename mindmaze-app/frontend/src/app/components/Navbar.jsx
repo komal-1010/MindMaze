@@ -1,12 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import '../styles/navbar.css'
+import Link from 'next/link'
 
 export default function Navbar() {
   const [dark, setDark] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const router = useRouter()
+  const pathname = usePathname()
 
   useEffect(() => {
     if (dark) {
@@ -19,7 +21,7 @@ export default function Navbar() {
   useEffect(() => {
     const token = localStorage.getItem('token')
     setIsLoggedIn(!!token)
-  }, [])
+  }, [pathname])
 
   const handleLogout = () => {
     localStorage.clear()
@@ -28,24 +30,30 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="nav-links">
-        <button onClick={() => router.push('/')}>Home</button>
-        <button onClick={() => router.push('/start')}>Start</button>
-        <button onClick={() => router.push('/game')}>Game</button>
-
-        {isLoggedIn ? (
-          <>
-            <button onClick={() => router.push('/profile')}>Profile</button>
-            <button onClick={handleLogout} className="logout-button">Log Out</button>
-          </>
-        ) : (
-          <button onClick={() => router.push('/login')}>Login</button>
-        )}
+      <div className="navbar-left">
+        <Link href="/" className="logo">
+          MindMaze
+        </Link>
       </div>
-
-      <button className="dark-toggle" onClick={() => setDark(!dark)}>
-        {dark ? '🌞 Light' : '🌙 Dark'}
-      </button>
+      <div className="navbar-right">
+        <div className="nav-links">
+            <Link href="/">Home</Link>
+            <Link href="/game">Game</Link>
+            {isLoggedIn ? (
+              <>
+                <Link href="/profile">Profile</Link>
+                <button onClick={handleLogout} className="logout-button">
+                  Log Out
+                </button>
+              </>
+            ) : (
+              <Link href="/login">Login</Link>
+            )}
+        </div>
+        <button className="dark-toggle" onClick={() => setDark(!dark)}>
+          {dark ? '🌞' : '🌙'}
+        </button>
+      </div>
     </nav>
   )
 }
