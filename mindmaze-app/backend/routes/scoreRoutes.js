@@ -18,11 +18,58 @@ router.post('/submit', async (req, res) => {
 // Get scores by user
 router.get('/user/:userId', async (req, res) => {
   try {
-    const scores = await Score.find({ userId: req.params.userId }).sort({ createdAt: -1 })
+    const scores = await Score.find({ user: req.params.userId })
+  .populate('user', 'username') 
+  .sort({ createdAt: -1 })
     res.json(scores)
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch scores' })
   }
 })
 
+// Leaderboard: Top users by total score and games played
+router.get('/leaderboard', async (req, res) => {
+  try {
+    const leaderboard = await Score.aggregate([
+      {
+        $group: {
+          _id: '$user',
+          totalScore: { $sum: '$value' },
+          gamesPlayed: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { totalScore: -1, gamesPlayed: -1 }
+      },
+      {
+        $limit: 10 
+      },
+      {
+        $lookup: {
+          from: 'users',       
+          localField: '_id',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      {
+        $unwind: '$user'
+      },
+      {
+        $project: {
+          userId: '$_id',
+          username: '$user.username',
+          totalScore: 1,
+          gamesPlayed: 1,
+          _id: 0
+        }
+      }
+    ])
+
+    res.json(leaderboard)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Failed to fetch leaderboard' })
+  }
+})
 export default router

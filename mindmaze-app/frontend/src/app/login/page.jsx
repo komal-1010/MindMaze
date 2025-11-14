@@ -3,17 +3,17 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import "../styles/login.css"
 export default function Login() {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ email, password })
     })
 
     const data = await res.json()
@@ -21,7 +21,8 @@ export default function Login() {
     if (res.ok) {
       localStorage.setItem('token', data.token)
       localStorage.setItem('username', data.username)
-      router.push('/home')
+      localStorage.setItem('userId', data.userId)
+      router.push('/profile')
     } else {
       setError('Something went wrong')
       alert(data.msg || 'Login failed')
@@ -32,12 +33,24 @@ export default function Login() {
     <div className="login-container">
       <h2>Login to MindMaze</h2>
       <form onSubmit={handleLogin}>
-        <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+        <input
+          type="email"  
+          placeholder="Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
         <button type="submit">Login</button>
       </form>
-         {error && <p className="error">{error}</p>}
- 
+      {error && <p className="error">{error}</p>}
+
       <p style={{ marginTop: '1rem' }}>
         Don't have an account?{' '}
         <a href="/register" style={{ color: 'blue' }}>

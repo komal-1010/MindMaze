@@ -2,40 +2,64 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #eee;
-  padding: 10px 20px;
-  font-family: sans-serif;
+  padding: 16px 40px;
+  background-color: aliceblue;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
-.navbar a {
-  margin-right: 15px;
-  text-decoration: none;
-  color: #333;
+.nav-links {
+  display: flex;
+  gap: 16px;
 }
 
-.dark-toggle {
-  padding: 6px 12px;
+.nav-links button {
+  background: none;
   border: none;
-  border-radius: 5px;
-  background-color: #444;
-  color: white;
+  font-size: 1rem;
+  color: rgb(121, 105, 208);
   cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
 }
 
-body.dark {
+.nav-links button:hover {
+  background-color: #f0f0f0;
+}
+
+.logout-button {
+  color: white;
+  background-color: #ff4d4f;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.logout-button:hover {
+  background-color: #d9363e;
+}
+/* Dark Mode Styles */
+html.dark {
   background-color: #1e1e1e;
   color: #f0f0f0;
 }
 
-body.dark .navbar {
+html.dark .navbar {
   background-color: #2b2b2b;
 }
 
-body.dark .navbar a {
+html.dark .navbar a {
   color: #f0f0f0;
 }
 
-body.dark .dark-toggle {
-  background-color: #ddd;
-  color: #222;
+html.dark .dark-toggle {
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
 }
+

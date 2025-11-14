@@ -18,8 +18,8 @@ export default function Leaderboard() {
       <h2>🏆 Leaderboard</h2>
       <ul>
         {scores.map((entry, index) => (
-          <li key={entry._id}>
-            {index + 1}. {entry.user.username} — {entry.value}
+          <li key={entry.userId}>
+            {index + 1}. {entry.username} — {entry.totalScore} points ({entry.gamesPlayed} games)
           </li>
         ))}
       </ul>
