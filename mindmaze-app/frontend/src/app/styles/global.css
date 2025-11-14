@@ -1,31 +1,64 @@
-.form-container,
-.home-container,
-.leaderboard-container {
-  max-width: 400px;
-  margin: 50px auto;
-  text-align: center;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+
+:root {
+  --background: #fff;
+  --foreground: #000;
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --card-background: #f8f9fa;
+  --border-color: #dee2e6;
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-input {
-  width: 90%;
-  padding: 10px;
-  margin: 10px 0;
+html.dark {
+  --background: #1a1a1a;
+  --foreground: #ffffff;
+  --card-background: #2a2a2a;
+  --border-color: #444444;
 }
 
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  background-color: #007bfc;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: var(--font-family-sans);
+  font-size: 16px;
+  line-height: 1.5;
 }
-.option{
-  color: black;
-  display: flex;
-  justify-content: center;
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: #0056b3;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.card {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

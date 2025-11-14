@@ -1,12 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { puzzles as staticPuzzles } from '../data/puzzles'
 import '../styles/game.css'
 
 export default function GameClient() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const level = searchParams.get('level')
   const category = searchParams.get('category')
 
@@ -58,6 +59,12 @@ export default function GameClient() {
       setPuzzles(fallback);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const quitGame = () => {
+    if (window.confirm('Are you sure you want to quit the game?')) {
+      router.push('/');
     }
   };
 
@@ -135,7 +142,7 @@ export default function GameClient() {
     return (
       <div className="game-container">
         <h2>Please select a category and level to start the game.</h2>
-        <button onClick={() => window.location.href = '/start'}>Go to Start</button>
+        <button className="start-btn" onClick={() => window.location.href = '/start'}>Go to Start</button>
       </div>
     )
   }
@@ -152,7 +159,7 @@ export default function GameClient() {
     return (
       <div className="game-container">
         <h2>No puzzles available for this category and level.</h2>
-        <button onClick={() => window.location.href = '/start'}>Try Again</button>
+        <button className="start-btn" onClick={() => window.location.href = '/start'}>Try Again</button>
       </div>
     )
   }
@@ -165,18 +172,21 @@ export default function GameClient() {
         <h2>🎉 Game Completed!</h2>
         <p>Your score: {score} / {puzzles.length}</p>
         {highScore !== null && <p>🏆 Your high score: {highScore}</p>}
-        <button onClick={() => window.location.reload()}>Play Again</button>
+        <button className="start-btn" onClick={() => window.location.reload()}>Play Again</button>
       </div>
     )
   }
 
   return (
     <div className="game-container">
-      <div className="progress-bar">
-        <div
-          className="progress-fill"
-          style={{ width: `${(timeLeft / 15) * 100}%` }}
-        ></div>
+      <div className="game-header">
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{ width: `${(timeLeft / 15) * 100}%` }}
+          ></div>
+        </div>
+        <button className="quit-btn" onClick={quitGame}>Quit</button>
       </div>
 
       <div className="timer">⏳ Time Left: {timeLeft}s</div>

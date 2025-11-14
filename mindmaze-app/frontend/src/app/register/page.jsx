@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import "../styles/register.css"
+import "../styles/form.css"
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ username: '', email: '', password: '' })

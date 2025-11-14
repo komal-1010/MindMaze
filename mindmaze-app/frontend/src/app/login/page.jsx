@@ -1,7 +1,8 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import "../styles/login.css"
+import "../styles/form.css"
+
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -30,8 +31,8 @@ export default function Login() {
   }
 
   return (
-    <div className="login-container">
-      <h2>Login to MindMaze</h2>
+    <div className="form-container">
+      <h1>Login to MindMaze</h1>
       <form onSubmit={handleLogin}>
         <input
           type="email"  
@@ -49,11 +50,11 @@ export default function Login() {
         />
         <button type="submit">Login</button>
       </form>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error-msg">{error}</p>}
 
       <p style={{ marginTop: '1rem' }}>
         Don't have an account?{' '}
-        <a href="/register" style={{ color: 'blue' }}>
+        <a href="/register" style={{ color: 'var(--primary-color)' }}>
           Register
         </a>
       </p>

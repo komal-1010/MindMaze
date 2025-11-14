@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import '../styles/navbar.css'
 import Link from 'next/link'
 
@@ -8,7 +8,6 @@ export default function Navbar() {
   const [dark, setDark] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const router = useRouter()
-  const pathname = usePathname()
 
   useEffect(() => {
     if (dark) {
@@ -21,7 +20,7 @@ export default function Navbar() {
   useEffect(() => {
     const token = localStorage.getItem('token')
     setIsLoggedIn(!!token)
-  }, [pathname])
+  }, [])
 
   const handleLogout = () => {
     localStorage.clear()

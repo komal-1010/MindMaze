@@ -35,7 +35,7 @@ export default function StartPage() {
         </select>
       </label>
 
-      <button onClick={startGame}>Start Game</button>
+      <button className="start-btn" onClick={startGame}>Start Game</button>
     </div>
   )
 }
