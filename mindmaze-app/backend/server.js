@@ -14,7 +14,6 @@ import logger from './utils/logger.js';
 
 dotenv.config();
 import highScore from "./routes/highScore.js";
-import aiRoutes from './routes/aiRoutes.js'
 const app = express();
 const allowedOrigins = [
   'https://mind-maze-pmlqhhf3d-komal-1010s-projects.vercel.app',
