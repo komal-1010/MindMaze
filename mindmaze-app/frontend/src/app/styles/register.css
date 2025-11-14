@@ -1,68 +1,35 @@
 .form-container {
   max-width: 400px;
-  margin: 5rem auto;
+  margin: auto;
   padding: 2rem;
-  background-color: var(--card-background);
-  border: 1px solid var(--border-color);
-  border-radius: 0.5rem;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: aliceblue;
 }
 
-.form-container h1 {
-  color: var(--foreground);
-  margin-bottom: 1.5rem;
-}
-
-.form-container input {
+input {
+  display: block;
   width: 100%;
-  padding: 0.75rem 1rem;
-  margin: 0.5rem 0;
-  border: 1px solid var(--border-color);
-  border-radius: 0.375rem;
-  background-color: var(--input-background);
-  color: var(--foreground);
-}
-
-.form-container button {
-  width: 100%;
-  padding: 0.75rem 1.5rem;
-  background: var(--primary-color);
-  color: #fff;
-  border: none;
-  border-radius: 0.375rem;
-  cursor: pointer;
+  margin-bottom: 1rem;
+  padding: 0.6rem;
   font-size: 1rem;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-  margin-top: 1rem;
 }
 
-.form-container button:hover {
-  background: var(--primary-color-dark);
+button {
+  padding: 0.6rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 .error-msg {
-  color: #ff4d4f;
+  color: red;
   margin-top: 1rem;
 }
 
 .success-msg {
-  color: #52c41a;
+  color: green;
   margin-top: 1rem;
-}
-
-.form-container .alternative-action {
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
-  color: var(--muted-foreground);
-}
-
-.form-container .alternative-action a {
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-.form-container .alternative-action a:hover {
-  text-decoration: underline;
 }
