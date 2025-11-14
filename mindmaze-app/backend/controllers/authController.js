@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Register Controller
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
   const { username, email, password } = req.body;
 
   try {
@@ -21,13 +21,12 @@ export const register = async (req, res) => {
 
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'Server error' });
+    next(error);
   }
 };
 
 // Login Controller
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
@@ -41,7 +40,6 @@ export const login = async (req, res) => {
 
     res.json({ token, username: user.username });
   } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ error: 'Server error' });
+    next(error);
   }
 };
